@@ -6,4 +6,3 @@ def test_calculation_operation(a, b, command, expected, capfd):
     command.execute(a, b)
     out, err = capfd.readouterr()
     assert out == expected
-    
