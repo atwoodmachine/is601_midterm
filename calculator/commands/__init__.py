@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from decimal import Decimal, InvalidOperation
 import logging
 import logging.config
+from calculator.historyManager import HistoryManager
 
 class Command(ABC):
     @abstractmethod
@@ -24,7 +25,10 @@ class CommandHandler:
 
     def execute_command(self, command_name: str, *args):
         try:
-            self.commands[command_name].execute(*args)
+            result = self.commands[command_name].execute(*args)
+            if isinstance(result, Decimal):
+                print(f"Result: {result}")
+                HistoryManager.add_to_history(command_name, list(args), result)
             logging.info(f"Command '{command_name}' executed.")
         except KeyError:
             logging.error(f"Command not recognized: {command_name}")

@@ -8,6 +8,7 @@ import logging.config
 from dotenv import load_dotenv
 from calculator.commands import CommandHandler
 from calculator.commands import Command
+from calculator.historyManager import HistoryManager
 
 
 class Calculator:
@@ -19,6 +20,8 @@ class Calculator:
         self.settings.setdefault('ENVIRONMENT', 'PRODUCTION')
 
         self.command_handler = CommandHandler()
+        HistoryManager.initialize_history()
+        
 
     def configure_logging(self):
         logging_conf_path = 'logging.conf'
