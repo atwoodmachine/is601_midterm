@@ -37,8 +37,10 @@ class CommandHandler:
     def handle_user_input(self, input: str):
         user_input = input.split()
         command_name = user_input[0]
+        args = user_input[1:]
         try:
-            args = list(map(Decimal, user_input[1:]))
+            if(command_name in {'add', 'subtract', 'multiply', 'divide'}):
+                args = list(map(Decimal, args))
             self.execute_command(command_name, *args)
         except InvalidOperation:
             logging.error(f"Error: command '{command_name}' with invalid argument")
