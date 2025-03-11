@@ -1,9 +1,11 @@
 from decimal import Decimal
 from calculator.commands import Command
+from calculator.historyManager import HistoryManager
 
 class HistoryCommand(Command):
     def execute(self):
-        pass
+        df_history = HistoryManager.get_history_as_df()
+        print(df_history.to_string())
     
     def description(self):
         return "Returns every calculation in calculation history"
