@@ -44,3 +44,8 @@ class HistoryManager:
     @classmethod
     def get_history_path(cls):
         return os.path.join(cls.HISTORY_DIR, cls.HISTORY_FILE)
+    
+    @classmethod
+    def save_to_history(cls, df):
+        csv_file_path = os.path.join(cls.HISTORY_DIR, cls.HISTORY_FILE)
+        df.to_csv(csv_file_path, mode='w', header=True, index=False)
