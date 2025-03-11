@@ -60,11 +60,11 @@ def test_menu_usage(capfd):
 
 def test_history_description(capfd):
     command = HistoryCommand()
-    assert command.description() == "Returns every calculation in calculation history", "History description should output 'Returns every calculation in calculation history'"
+    assert command.description() == "Default: Returns every calculation in calculation history\nhistory <operation> filters result by operation", "History description should output 'Returns every calculation in calculation history'"
 
 def test_history_usage(capfd):
     command = HistoryCommand()
-    assert command.usage() == "history", "History usage should output 'history'"
+    assert command.usage() == "history <optional: operation>", "History usage should output 'history <optional: operation>s'"
 
 def test_clearhistory_decription(capfd):
     command = ClearHistoryCommand()
