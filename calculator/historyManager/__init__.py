@@ -26,5 +26,12 @@ class HistoryManager:
     @classmethod
     def get_history_as_df(cls):
         csv_file_path = os.path.join(cls.HISTORY_DIR, cls.HISTORY_FILE)
-        df_history = pd.read_csv(csv_file_path)
-        return df_history
+        try:
+            df_history = pd.read_csv(csv_file_path)
+            return df_history 
+        except FileNotFoundError:
+            logging.error(f"Error: The file '{csv_file_path}' was not found.")
+        except Exception as e:
+            logging.error(f"An unexpected error occurred: {e}")
+
+        return None
