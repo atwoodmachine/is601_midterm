@@ -38,7 +38,7 @@ def test_initialize_history_non_writable_directory(setup_history_manager):
 def test_add_to_history_creates_file(setup_history_manager):
     '''Test that a new file is created if the history file doesn't exist'''
     command_name = 'add'
-    args = [1, 2]
+    args = [1.0, 2.0]
     result = 3
     HistoryManager.add_to_history(command_name, args, result)
 
