@@ -35,3 +35,6 @@ class HistoryManager:
             logging.error(f"An unexpected error occurred: {e}")
 
         return None
+    @classmethod
+    def get_history_path(cls):
+        return os.path.join(cls.HISTORY_DIR, cls.HISTORY_FILE)
