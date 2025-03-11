@@ -33,8 +33,7 @@ def generate_test_data(num_records):
             b = Decimal("1")
 
         with io.StringIO() as buf, redirect_stdout(buf):
-            command.execute(a, b)
-            expected = f"{buf.getvalue().strip()}\n"
+            expected = command.execute(a, b)
 
         yield a, b, operation_name, command, expected
 
