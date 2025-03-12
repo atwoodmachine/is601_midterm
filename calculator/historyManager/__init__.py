@@ -3,8 +3,8 @@ import os
 import pandas as pd
 
 class HistoryManager:
-    HISTORY_DIR = './history'
-    HISTORY_FILE = 'calculation_history.csv'
+    HISTORY_DIR = os.getenv('HISTORY_DIR', './history')
+    HISTORY_FILE = os.getenv('HISTORY_FILE', 'calculation_history.csv')
    
     @classmethod
     def initialize_history(cls):
