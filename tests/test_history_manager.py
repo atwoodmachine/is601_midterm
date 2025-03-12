@@ -1,5 +1,6 @@
 '''Test class HistoryManager'''
 import os
+import tempfile
 from unittest.mock import patch
 import pytest
 import pandas as pd
@@ -7,26 +8,19 @@ from calculator.historyManager import HistoryManager
 
 @pytest.fixture
 def setup_history_manager():
-    '''Sets up mock directory and tears it down after testing'''
-    if not os.path.exists(HistoryManager.HISTORY_DIR):
-        os.makedirs(HistoryManager.HISTORY_DIR)
-    yield
+    '''Sets up a mock history directory using a temporary directory'''
+    with tempfile.TemporaryDirectory() as temp_dir:
+        with patch.object(HistoryManager, 'HISTORY_DIR', temp_dir), \
+             patch.object(HistoryManager, 'HISTORY_FILE', 'test_calculation_history.csv'):
+            yield
 
+def test_initialize_history_creates_directory(setup_history_manager):
+    '''Test that the directory is created if it does not exist'''
     if os.path.exists(HistoryManager.HISTORY_DIR):
-        for file in os.listdir(HistoryManager.HISTORY_DIR):
-            os.remove(os.path.join(HistoryManager.HISTORY_DIR, file))
-        os.rmdir(HistoryManager.HISTORY_DIR)
-
-def test_initialize_history_creates_directory():
-    '''Test directory is created if not exists'''
-    if os.path.exists(HistoryManager.HISTORY_DIR):
-        for file in os.listdir(HistoryManager.HISTORY_DIR):
-            os.remove(os.path.join(HistoryManager.HISTORY_DIR, file))
         os.rmdir(HistoryManager.HISTORY_DIR)
 
     HistoryManager.initialize_history()
     assert os.path.exists(HistoryManager.HISTORY_DIR), "History directory was not created."
-
 
 def test_initialize_history_non_writable_directory(setup_history_manager):
     '''Test for non-writable directory'''
