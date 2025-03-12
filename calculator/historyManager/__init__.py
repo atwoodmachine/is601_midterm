@@ -14,6 +14,9 @@ class HistoryManager:
         elif not os.access(cls.HISTORY_DIR, os.W_OK):
             logging.error(f"The directory {cls.HISTORY_DIR} is not writeable")
             return
+        df = pd.DataFrame(columns=["Operation", "Arguments", "Result"])
+        df.to_csv(HistoryManager.get_history_path(), index=False)
+        logging.info(f"History file created at {HistoryManager.get_history_path()}")
    
     @classmethod
     def add_to_history(cls, command_name:str, args, result):
