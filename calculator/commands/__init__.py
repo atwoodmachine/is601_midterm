@@ -29,7 +29,7 @@ class CommandHandler:
             if isinstance(result, Decimal):
                 print(f"Result: {result}")
                 HistoryManager.add_to_history(command_name, list(args), result)
-            logging.info(f"Command '{command_name}' executed.")
+            logging.info(f"Command '{command_name}' executed with arguments {args}.")
         except KeyError:
             logging.error(f"Command not recognized: {command_name}")
             print(f"Command not recognized: {command_name}")
