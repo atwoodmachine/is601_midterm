@@ -1,4 +1,4 @@
-'''Test the history manipulation commands history, clearhistory, deletehistory'''
+'''Test the history manipulation command history'''
 from unittest.mock import patch
 import pytest
 import pandas as pd
