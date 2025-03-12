@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 
 class HistoryManager:
     load_dotenv()
+    logging.info("HistoryManager: loaded environment variables")
     HISTORY_DIR = os.getenv('HISTORY_DIR', './history')
     HISTORY_FILE = os.getenv('HISTORY_FILE', 'calculation_history.csv')
    
@@ -31,8 +32,8 @@ class HistoryManager:
         if os.path.exists(csv_file_path):
             df_calc.to_csv(csv_file_path, mode='a', header=False, index=False)
         else:
-            logging.info(f"Created history file {cls.HISTORY_FILE}")
             df_calc.to_csv(csv_file_path, mode='w', header=True, index=False)
+            logging.info(f"Created history file {cls.HISTORY_FILE}")
 
     @classmethod
     def get_history_as_df(cls):

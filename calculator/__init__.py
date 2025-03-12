@@ -33,7 +33,7 @@ class Calculator:
 
     def load_environment_variables(self):
             settings = {key: value for key, value in os.environ.items()}
-            logging.info("Environment variables loaded.")
+            logging.info("Calculator: Environment variables loaded.")
             return settings
 
     def get_environment_variable(self, env_var: str = 'ENVIRONMENT'):
@@ -68,7 +68,8 @@ class Calculator:
 
     def start(self):
         Calculator.load_plugins(self)
-        logging.info("Calculator initialized\nType 'exit' to quit. Type 'menu' to see available commands.\n")
+        logging.info("Calculator initialized")
+        print("Calculator initialized\nType 'exit' to quit. Type 'menu' to see available commands.\n")
 
         while True:
             try:

@@ -1,4 +1,5 @@
 import ast
+import logging
 from calculator.commands import Command
 from calculator.historyManager import HistoryManager
 
@@ -8,6 +9,7 @@ class DeleteHistoryCommand(Command):
         try:
             arguments = [float(arg) for arg in args[1:]] if len(args) > 1 else None
         except ValueError:
+            logging.error(f"ValueError with argument(s) {args}")
             print(f"Invalid argument(s): {args}, please enter command as deletehistory <operation> <optional: operand1 operand2>")
             return
 
