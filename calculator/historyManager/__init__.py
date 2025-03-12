@@ -5,6 +5,7 @@ import pandas as pd
 class HistoryManager:
     HISTORY_DIR = './history'
     HISTORY_FILE = 'calculation_history.csv'
+   
     @classmethod
     def initialize_history(cls):
         if not os.path.exists(cls.HISTORY_DIR):
@@ -13,9 +14,16 @@ class HistoryManager:
         elif not os.access(cls.HISTORY_DIR, os.W_OK):
             logging.error(f"The directory {cls.HISTORY_DIR} is not writeable")
             return
+        if not os.path.exists(os.path.join(cls.HISTORY_DIR, cls.HISTORY_FILE)):
+            df = pd.DataFrame(columns=["Operation", "Arguments", "Result"])
+            df.to_csv(HistoryManager.get_history_path(), index=False)
+            logging.info(f"History file created at {HistoryManager.get_history_path()}")
+   
     @classmethod
     def add_to_history(cls, command_name:str, args, result):
-        calc = {'Operation': [command_name], 'Arguments': [args], 'Result': [result]}
+        display_args = [float(arg) for arg in args]
+
+        calc = {'Operation': [command_name], 'Arguments': [display_args], 'Result': [result]}
         df_calc = pd.DataFrame(calc)
         csv_file_path = os.path.join(cls.HISTORY_DIR, cls.HISTORY_FILE)
         if os.path.exists(csv_file_path):
@@ -23,6 +31,7 @@ class HistoryManager:
         else:
             logging.info(f"Created history file {cls.HISTORY_FILE}")
             df_calc.to_csv(csv_file_path, mode='w', header=True, index=False)
+
     @classmethod
     def get_history_as_df(cls):
         csv_file_path = os.path.join(cls.HISTORY_DIR, cls.HISTORY_FILE)
@@ -35,6 +44,12 @@ class HistoryManager:
             logging.error(f"An unexpected error occurred: {e}")
 
         return None
+
     @classmethod
     def get_history_path(cls):
         return os.path.join(cls.HISTORY_DIR, cls.HISTORY_FILE)
+    
+    @classmethod
+    def save_to_history(cls, df):
+        csv_file_path = os.path.join(cls.HISTORY_DIR, cls.HISTORY_FILE)
+        df.to_csv(csv_file_path, mode='w', header=True, index=False)

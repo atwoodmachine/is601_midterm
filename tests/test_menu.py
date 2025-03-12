@@ -7,6 +7,8 @@ from calculator.plugins.divide import DivideCommand
 from calculator.plugins.multiply import MultiplyCommand
 from calculator.plugins.exit import ExitCommand
 from calculator.plugins.menu import MenuCommand
+from calculator.plugins.history import HistoryCommand
+from calculator.plugins.clearhistory import ClearHistoryCommand
 
 def test_add_description(capfd):
     command = AddCommand()
@@ -55,3 +57,19 @@ def test_menu_description(capfd):
 def test_menu_usage(capfd):
     command = MenuCommand(CommandHandler())
     assert command.usage() == "menu", "Menu usage should output 'menu'"
+
+def test_history_description(capfd):
+    command = HistoryCommand()
+    assert command.description() == "Default: Returns every calculation in calculation history\nhistory <operation> filters result by operation", "History description should output 'Returns every calculation in calculation history'"
+
+def test_history_usage(capfd):
+    command = HistoryCommand()
+    assert command.usage() == "history <optional: operation>", "History usage should output 'history <optional: operation>s'"
+
+def test_clearhistory_decription(capfd):
+    command = ClearHistoryCommand()
+    assert command.description() == "Clears every calculation in calculation history", "Clearhistory description should output 'Clears every calculation in calculation history'"
+
+def test_clearhistory_usage(capfd):
+    command = ClearHistoryCommand()
+    assert command.usage() == "clearhistory", "Clearhistory usage should output 'clearhistory'"
