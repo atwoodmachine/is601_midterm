@@ -5,12 +5,16 @@ from calculator.historyManager import HistoryManager
 class DeleteHistoryCommand(Command):
     def execute(self, *args):
         command_name = args[0] if len(args) > 0 else None
-        arguments = [float(arg) for arg in args[1:]] if len(args) > 1 else None
+        try:
+            arguments = [float(arg) for arg in args[1:]] if len(args) > 1 else None
+        except ValueError:
+            print(f"Invalid argument(s): {args}, please enter command as deletehistory <operation> <optional: operand1 operand2>")
+            return
 
         df_history = HistoryManager.get_history_as_df()
 
         if df_history is not None and not df_history.empty:
-            if command_name and arguments:
+            if command_name and arguments: 
                 df_history['Arguments'] = df_history['Arguments'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
 
                 filter_condition = (
