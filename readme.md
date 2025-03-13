@@ -144,7 +144,7 @@ The HistoryManager class sets the directory based on the HISTORY_DIR environment
 
 ### Logging
 
-Log messages are used throughout the program to record program behavior and maintain a record of errors. Log messages are placed where new directories and files are created, which helps when debugging as well as with general app usage:
+Log messages are used throughout the program to record program behavior using info logs and maintain a record of errors with error logs. Log info messages are placed where new directories and files are created, which helps when debugging as well as with general app usage. Critical errors are logged as error messages.
 
 ```
 def initialize_history(cls):
@@ -171,7 +171,7 @@ class DivideCommand(Command):
             print("Math error: division by zero")
 ```
 
-Every command run and the arguments they are run with are recorded with a log message. This in addition to the error log messages helps to debug the program.
+Every command run and the arguments they are run with are recorded with a log message. This in addition to the error log messages helps to debug the program. This aids in development to see if logically valid commands are not properly accounted for. It also helps trace the program in case an error arises in order to replicate bugs or the program state which may have caused the error.
 
 ```
 def execute_command(self, command_name: str, *args):
@@ -186,7 +186,7 @@ def execute_command(self, command_name: str, *args):
             print(f"Command not recognized: {command_name}")
 ```
 
-Many log messages are recorded in the calculator class, because this initializes every plugin, creates necessary directories, and loads environment variables. If logs indicate these processes are unsuccessful, it gives direct information about where, when, and why the program has failed, allowing for easier debugging. Here is an example of logging in the calculator class:
+Many log messages are recorded in the calculator class, because this initializes every plugin, creates necessary directories, and loads environment variables. If logs indicate these processes are unsuccessful, it gives direct information about where, when, and why the program has failed, allowing for easier debugging. Warnings are raised when critical file paths are not found. Here is an example of logging in the calculator class:
 
 ```
 def load_plugins(self):
