@@ -2,11 +2,12 @@
 
 ### Calculator App Setup and Usage
 
-Install dependencies with ```pip install -r requirements.txt```. Run the calculator program in the command line ```python main.py```. The calculator saves history by default in the app's ./history directory in the file calculation_history.csv. To change this filepath, configure a .env file to set the environment variables HISTORY_DIR and HISTORY_FILE to the desired directory and to the desired file name respectively. Here is an example .env file:
+Install dependencies with ```pip install -r requirements.txt```. Run the calculator program in the command line with ```python main.py```. The calculator saves history by default in the app's ./history directory in the file calculation_history.csv. To change this filepath, configure a .env file to set the environment variables HISTORY_DIR and HISTORY_FILE to the desired directory and to the desired file name respectively. The path for logging is also set with an environment variable, defaulting to logging.conf. Here is an example .env file:
 
 ```
 HISTORY_DIR = ./history 
 HISTORY_FILE = calculation_history.csv
+LOGGING_CONF_PATH = logging.conf
 ```
 
 ### Pytest and Faker
