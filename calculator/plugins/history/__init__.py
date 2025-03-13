@@ -16,7 +16,7 @@ class HistoryCommand(Command):
             print("No matching results found")
     
     def description(self):
-        return "Default: Returns every calculation in calculation history\nhistory <operation> filters result by operation"
+        return "\nDefault: Returns every calculation in calculation history\nhistory <operation> filters result by operation"
     
     def usage(self):
         return "history <optional: operation>"
