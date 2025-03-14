@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 
 class HistoryManager:
     load_dotenv()
-    logging.info("HistoryManager: loaded environment variables")
     HISTORY_DIR = os.getenv('HISTORY_DIR', './history')
     HISTORY_FILE = os.getenv('HISTORY_FILE', 'calculation_history.csv')
    
