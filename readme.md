@@ -1,4 +1,5 @@
 ## IS 601 Midterm
+Seniz Ozdemir
 
 ### Calculator App Setup and Usage
 
