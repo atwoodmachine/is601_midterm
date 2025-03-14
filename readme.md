@@ -96,6 +96,37 @@ class AddCommand(Command):
         return "add <operand_a> <operand_b>"
 ```
 
+Every command line function the user has access to is implemented as a Concrete Command, with these commands being add, subtract, multiply, divide, history, clearhistory, deletehistory, menu, and exit. <br>
+
+Successful mathematical operations are recorded by the calculator into a history, stored as a csv file using pandas. This is determined by the command having a valid return value, as shown below:
+
+```
+def execute_command(self, command_name: str, *args):
+    try:
+        result = self.commands[command_name].execute(*args)
+        if isinstance(result, Decimal):
+            print(f"Result: {result}")
+            HistoryManager.add_to_history(command_name, list(args), result)
+...
+```
+
+This is done by the Singleton HistoryManager class, which uses class methods to access and write to the history csv file. It also provides a Facade for the rest of the program to keep the history manipulation commands clean and compact by performing csv to dataframe retrievals and conversions. The above code calls ```add_to_history()``` when a math operation is performed, which is written:
+
+```
+def add_to_history(cls, command_name:str, args, result):
+    display_args = [float(arg) for arg in args]
+
+    calc = {'Operation': [command_name], 'Arguments': [display_args], 'Result': [result]}
+    df_calc = pd.DataFrame(calc)
+    csv_file_path = os.path.join(cls.HISTORY_DIR, cls.HISTORY_FILE)
+    if os.path.exists(csv_file_path):
+        df_calc.to_csv(csv_file_path, mode='a', header=False, index=False)
+    else:
+        df_calc.to_csv(csv_file_path, mode='w', header=True, index=False)
+        logging.info(f"Created history file {cls.HISTORY_FILE}")
+```
+The Facade performs the necessary checks and type casting required in order to save an operation, which greatly simplifies the ```execute_command()``` function by not having it interact directly with the history files. Another useful Facade is the ```get_history_as_df()``` function, which reads the history csv file, performs error handling, and returns the data the csv contained as a pandas dataframe, which is a function every histroy manipulation command uses. 
+
 #### Plugin Architecture
 
 The calculator is implemented using a flexible plugin architecture which dynamically discovers and loads available plugins, leaving room for future expansion and allowing for quick and easy implementation of new commands without having to edit any other part of the program.
@@ -141,7 +172,19 @@ class HistoryManager:
     HISTORY_FILE = os.getenv('HISTORY_FILE', 'calculation_history.csv')
     ...
 ```
-The HistoryManager class sets the directory based on the HISTORY_DIR environment variable (defaulting to ./history) and sets the file based on HISTORY_FILE (defaulting to calculation_history.csv). These environment variables can be configured in a .env file, as previously shown.
+The HistoryManager class sets the directory based on the HISTORY_DIR environment variable (defaulting to ./history) and sets the file based on HISTORY_FILE (defaulting to calculation_history.csv). These environment variables can be configured in a .env file, as previously shown. <br>
+
+Logging is also configured via environment variables. Setting the "LOGGING_CONF_PATH" environment variable in the .env file will set the location of the logging configuration file. By default, it is logging.conf.
+
+```
+def configure_logging(self):
+    logging_conf_path = os.getenv('LOGGING_CONF_PATH', 'logging.conf')
+    if os.path.exists(logging_conf_path):
+        logging.config.fileConfig(logging_conf_path, disable_existing_loggers=False)
+    else:
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    logging.info("Logging configured.")
+```
 
 ### Logging
 
