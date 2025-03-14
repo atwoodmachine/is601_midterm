@@ -20,13 +20,13 @@ class DeleteHistoryCommand(Command):
                 df_history['Arguments'] = df_history['Arguments'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
 
                 filter_condition = (
-                    (df_history['Operation'].str.fullmatch(command_name, case=False, na=False)) &
+                    (df_history['Operation'] == command_name) &
                     (df_history['Arguments'].apply(lambda x: list(x) == arguments))
                 )
                 df_history_filtered = df_history[filter_condition]
 
             elif command_name:
-                filter_condition = df_history['Operation'].str.fullmatch(command_name, case=False, na=False)
+                filter_condition = df_history['Operation'] == command_name
                 df_history_filtered = df_history[filter_condition]
             else:
                 print("Error: Command name is required for deletion.")

@@ -8,7 +8,7 @@ class HistoryCommand(Command):
 
         df_history = HistoryManager.get_history_as_df()
         if command_name:
-            df_history = df_history[df_history['Operation'].str.fullmatch(command_name, case=False, na=False)]
+            df_history = df_history[df_history['Operation'] == command_name]
         
         if df_history is not None and not df_history.empty:
             print(df_history.to_string())
