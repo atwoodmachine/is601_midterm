@@ -293,7 +293,7 @@ def execute(self, *args):
 
     df_history = HistoryManager.get_history_as_df()
     if command_name:
-        df_history = df_history[df_history['Operation'].str.fullmatch(command_name, case=False, na=False)]
+        df_history = df_history[df_history['Operation'] == command name]
 ...
 ```
 EAFP is used whenever it is assumed that the operations will be performed successfully a majority of the time. Here is a simple example with the division command:
