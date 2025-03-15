@@ -17,7 +17,7 @@ class DeleteHistoryCommand(Command):
 
         if df_history is not None and not df_history.empty:
             if command_name and arguments: 
-                df_history['Arguments'] = df_history['Arguments'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
+                df_history['Arguments'] = df_history['Arguments'].apply(lambda x: ast.literal_eval(x))
 
                 filter_condition = (
                     (df_history['Operation'] == command_name) &
